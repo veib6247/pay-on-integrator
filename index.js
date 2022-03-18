@@ -11,8 +11,9 @@ const integrator = {
    * "threeDSecure" - Standalone 3D Secure transaction request, only returns intermediate response, does not auto-redirect.
    * "TokenizeStandAlone" - Submits data for standalone tokenization in the gateway.
    * "Manage" - Submits against existing transaction to Refund, Capture, Reverse, or, Receipt.
+   * "Recurring" - Used for subscription type services, use against a registration ID.
    *
-   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"].
+   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage", "Recurring"].
    * @param {string} accessToken Your API token.
    * @param {string} parameters Your parameters, must be in query string parameters format.
    * @param {string} referenceId Used for transactions that requires a reference ID (usually a registration ID or a previously approved transaction ID). Defaults as blank.
@@ -62,6 +63,18 @@ const integrator = {
         }
         break
 
+      case 'Recurring':
+        // eval if user passed a referenceId
+        if (referenceId == '') {
+          let error = `"referenceId" is required for Integration Type "Recurring".`
+          console.error(error)
+
+          return error
+        } else {
+          endPoint = `https://${subDomain}.oppwa.com/v1/registrations/${referenceId}/payments`
+        }
+        break
+
       // display error to user in case type is not within scope
       default:
         let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`
@@ -86,13 +99,18 @@ const integrator = {
 
   /**
    * Fetches the transaction result after CopyandPay redirects to the shopperResultURL.
-   * @param {boolean} isTestMode Determines if you want to hit the test or live environment.
    * @param {string} accessToken Your API token.
    * @param {string} entityId Your assigned entity ID provided by your service provider.
    * @param {string} checkoutId The generated checkout ID returned from submitting the initial request.
+   * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns Promise JSON response object. Needs to be fullfilled.
    */
-  getPaymentStatus: async (isTestMode, accessToken, entityId, checkoutId) => {
+  getPaymentStatus: async (
+    accessToken,
+    entityId,
+    checkoutId,
+    isTestMode = true
+  ) => {
     // init endPoint URL
     let endPoint = ''
 
@@ -110,6 +128,47 @@ const integrator = {
     // fetch but GET method this time
     const rawResponse = await fetch(endPoint, {
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    // return response, to be fullfilled
+    return rawResponse.json()
+  },
+
+  /**
+   * Deletes an existing registration ID from the API
+   * @param {string} accessToken Your API token.
+   * @param {string} entityId Your assigned entity ID provided by your service provider.
+   * @param {string} registrationID The registration ID that you wish to delete.
+   * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
+   * @returns
+   */
+  deleteRegistration: async (
+    accessToken,
+    entityId,
+    registrationID,
+    isTestMode = true
+  ) => {
+    // init endPoint URL
+    let endPoint = ''
+
+    /**
+     * eval if test or live
+     * notice that we are not putting the entityId in the body
+     * just plain old URL params
+     */
+    if (isTestMode) {
+      endPoint = `https://eu-test.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
+    } else {
+      endPoint = `https://eu-prod.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
+    }
+
+    // fetch but GET method this time
+    const rawResponse = await fetch(endPoint, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${accessToken}`,
