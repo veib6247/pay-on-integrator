@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Allows you to send transactions to the PAY.ON payment gateway",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/veib6247/pay-on-integrator/issues"
   },
-  "homepage": "https://github.com/veib6247/pay-on-integrator#readme"
+  "homepage": "https://github.com/veib6247/pay-on-integrator#readme",
+  "dependencies": {
+    "node-fetch": "^3.2.3"
+  }
 }
