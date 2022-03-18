@@ -6,7 +6,18 @@ This library allows you to send transactions to the PAY.ON payment gateway witho
 
 `import integrator from 'pay-on-integrator'`
 
-# Usage
+# Functions
+
+## `submitTransactionRequest` - Submits the data to the appropriate endpoint depending on the integrationType provided by the user.
+
+### @param {string} `integrationType` - The type of integration you want to send the request to. Available options below:
+
+- "CopyAndPay" - Returns a checkout ID that you will need to call the widget.
+- "ServerToServer" - Support synchronous transactions only, does not autodirect to URL from the intermediate response.
+- "threeDSecure" - Standalone 3D Secure transaction request, only returns intermediate response, does not auto-redirect.
+- "TokenizeStandAlone" - Submits data for standalone tokenization in the gateway.
+- "Manage" - Submits against existing transaction to Refund, Capture, Reverse, or, Receipt.
+- "Recurring" - Used for subscription type services, use against a registration ID.
 
 ## CopyandPay
 
