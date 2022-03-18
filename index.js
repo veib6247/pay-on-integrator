@@ -6,21 +6,22 @@ const integrator = {
   /**
    * Submits the data to the appropriate endpoint depending on the integrationType provided by the user.
    *
-   * CopyAndPay - Returns a checkout ID that you will need to call the widget.
-   * ServerToServer - Support synchronous transactions only, does not autodirect to URL from the intermediate response.
-   * threeDSecure - Standalone 3D Secure transaction request. Only returns intermediate response, does not auto-redirect.
+   * "CopyAndPay" - Returns a checkout ID that you will need to call the widget.
+   * "ServerToServer" - Support synchronous transactions only, does not autodirect to URL from the intermediate response.
+   * "threeDSecure" - Standalone 3D Secure transaction request, only returns intermediate response, does not auto-redirect.
+   * "TokenizeStandAlone" - Submits data for standalone tokenization in the gateway.
    *
-   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure"].
-   * @param {boolean} isTestMode Determines if you want to hit the test or live environment.
+   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone"].
    * @param {string} accessToken Your API token.
    * @param {string} parameters Your parameters, must be in query string parameters format.
+   * @param {boolean} isTestMode Determines if you want to hit the test or live environment, defaults to TRUE
    * @returns Promise JSON response object. Needs to be fullfilled.
    */
   submitTransactionRequest: async (
     integrationType,
-    isTestMode,
     accessToken,
-    parameters
+    parameters,
+    isTestMode = true
   ) => {
     // init sub domain
     let subDomain = ''
@@ -42,8 +43,16 @@ const integrator = {
       case 'threeDSecure':
         endPoint = `https://${subDomain}.oppwa.com/v1/threeDSecure`
         break
-      default:
+      case 'TokenizeStandAlone':
+        endPoint = `https://${subDomain}.oppwa.com/v1/registrations`
         break
+
+      // display error to user in case type is not within scope
+      default:
+        let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone"]`
+
+        console.error(error)
+        return error
     }
 
     // le fetch
@@ -57,8 +66,9 @@ const integrator = {
     })
 
     // return response, to be fullfilled
-    return rawResponse.json()
+    return await rawResponse.json()
   },
+
   /**
    * Fetches the transaction result after CopyandPay redirects to the shopperResultURL.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment.
