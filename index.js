@@ -98,31 +98,50 @@ const integrator = {
   },
 
   /**
-   * Fetches the transaction result after CopyandPay redirects to the shopperResultURL.
+   * Fetches the transaction result depending on the type of reference ID
    * @param {string} accessToken Your API token.
    * @param {string} entityId Your assigned entity ID provided by your service provider.
-   * @param {string} checkoutId The generated checkout ID returned from submitting the initial request.
+   * @param {string} id The generated checkout ID returned from submitting the initial request.
+   * @param {string} idType The type of id provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns Promise JSON response object. Needs to be fullfilled.
    */
   getPaymentStatus: async (
     accessToken,
     entityId,
-    checkoutId,
+    id,
+    idType,
     isTestMode = true
   ) => {
+    // init sub domain
+    let subDomain = ''
+    if (isTestMode) {
+      subDomain = 'eu-test'
+    } else {
+      subDomain = 'eu-prod'
+    }
+
     // init endPoint URL
     let endPoint = ''
+    switch (idType) {
+      case 'checkoutId':
+        endPoint = `https://${subDomain}.oppwa.com/v1/checkouts/${id}/payment?entityId=${entityId}`
+        break
 
-    /**
-     * eval if test or live
-     * notice that we are not putting the entityId in the body
-     * just plain old URL params
-     */
-    if (isTestMode) {
-      endPoint = `https://eu-test.oppwa.com/v1/checkouts/${checkoutId}/payment?entityId=${entityId}`
-    } else {
-      endPoint = `https://eu-prod.oppwa.com/v1/checkouts/${checkoutId}/payment?entityId=${entityId}`
+      case 'paymentId':
+        endPoint = `https://${subDomain}.oppwa.com/v1/query/${id}?entityId=${entityId}`
+        break
+
+      case 'merchantTransactionId':
+        endPoint = `https://${subDomain}.oppwa.com/v1/query?entityId=${entityId}&merchantTransactionId=${id}`
+        break
+
+      // error handling for unsupported id type
+      default:
+        let error = `ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`
+        console.error(error)
+
+        return error
     }
 
     // fetch but GET method this time
