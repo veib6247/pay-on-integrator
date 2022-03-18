@@ -46,3 +46,5 @@ Use the `submitTransactionRequest` function to generate a `checkoutId`.
       ndc: 'DE09D71BCF527F73C99ED9E90A94D98C.uat01-vm-tx02',
       id: 'DE09D71BCF527F73C99ED9E90A94D98C.uat01-vm-tx02'
     }
+
+The rest are coming soon, I'm sleepy xp
