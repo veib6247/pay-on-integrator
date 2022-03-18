@@ -102,7 +102,7 @@ const integrator = {
    * @param {string} accessToken Your API token.
    * @param {string} entityId Your assigned entity ID provided by your service provider.
    * @param {string} id The generated checkout ID returned from submitting the initial request.
-   * @param {string} idType The type of id provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
+   * @param {string} idType The type of id you provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns Promise JSON response object. Needs to be fullfilled.
    */
