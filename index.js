@@ -46,13 +46,18 @@ const integrator = {
     // init endPoint URL
     let endPoint = ''
 
-    // eval if test or live
+    /**
+     * eval if test or live
+     * notice that we are not putting the entityId in the body
+     * just plain old URL params
+     */
     if (isTestMode) {
       endPoint = `https://eu-test.oppwa.com/v1/checkouts/${checkoutId}/payment?entityId=${entityId}`
     } else {
       endPoint = `https://eu-prod.oppwa.com/v1/checkouts/${checkoutId}/payment?entityId=${entityId}`
     }
 
+    // fetch but GET method this time
     const rawResponse = await fetch(endPoint, {
       method: 'GET',
       headers: {
