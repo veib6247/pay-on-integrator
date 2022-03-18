@@ -1,0 +1,4 @@
+{
+  "esversion": 9, // suppress es6 warnings
+  "asi": true // suppress semicolon warning
+}
