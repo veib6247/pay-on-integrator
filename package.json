@@ -1,7 +1,7 @@
 {
   "name": "pay-on-integrator",
   "version": "1.0.0",
-  "description": "Allows you to send transactions to the PAY.ON payment gateway",
+  "description": "Allows you to send transactions to the PAY.ON payment gateway via the OPPWA API.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,7 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/veib6247/pay-on-integrator.git"
   },
-  "keywords": [],
+  "keywords": [
+    "PAY.ON",
+    "Payment Gateways",
+    "Integration",
+    "Gateways",
+    "Payment",
+    "VISA",
+    "MASTERCARD"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
