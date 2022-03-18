@@ -10,17 +10,21 @@ const integrator = {
    * "ServerToServer" - Support synchronous transactions only, does not autodirect to URL from the intermediate response.
    * "threeDSecure" - Standalone 3D Secure transaction request, only returns intermediate response, does not auto-redirect.
    * "TokenizeStandAlone" - Submits data for standalone tokenization in the gateway.
+   * "Manage" - Submits against existing transaction to Refund, Capture, Reverse, or, Receipt.
    *
-   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone"].
+   * @param {string} integrationType The type of integration you want to send the request to. Available options are: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"].
    * @param {string} accessToken Your API token.
    * @param {string} parameters Your parameters, must be in query string parameters format.
+   * @param {string} referenceId Used for transactions that requires a reference ID (usually a registration ID or a previously approved transaction ID). Defaults as blank.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment, defaults to TRUE
+   *
    * @returns Promise JSON response object. Needs to be fullfilled.
    */
   submitTransactionRequest: async (
     integrationType,
     accessToken,
     parameters,
+    referenceId = '',
     isTestMode = true
   ) => {
     // init sub domain
@@ -46,10 +50,21 @@ const integrator = {
       case 'TokenizeStandAlone':
         endPoint = `https://${subDomain}.oppwa.com/v1/registrations`
         break
+      case 'Manage':
+        // eval if user passed a referenceId
+        if (referenceId == '') {
+          let error = `"referenceId" is required for Integration Type "Manage".`
+          console.error(error)
+
+          return error
+        } else {
+          endPoint = `https://${subDomain}.oppwa.com/v1/payments/${referenceId}`
+        }
+        break
 
       // display error to user in case type is not within scope
       default:
-        let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone"]`
+        let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`
 
         console.error(error)
         return error
