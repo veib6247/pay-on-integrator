@@ -4,11 +4,11 @@ import fetch from 'node-fetch'
  */
 const integrator = {
   /**
-   * submits your data to generate a checkout ID
-   * @param {boolean} isTestMode determines if you want to hit the test or live environments
-   * @param {string} accessToken
-   * @param {string} parameters
-   * @returns promise json
+   * Submits your data to generate a checkout ID
+   * @param {boolean} isTestMode Determines if you want to hit the test or live environment.
+   * @param {string} accessToken Your API token.
+   * @param {string} parameters Your parameters, must be in query string parameters format.
+   * @returns Promise JSON response object. Needs to be fullfilled.
    */
   async submitCopyandPay(isTestMode, accessToken, parameters) {
     let endPoint = ''
