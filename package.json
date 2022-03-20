@@ -1,6 +1,6 @@
 {
   "name": "pay-on-integrator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Allows you to send transactions to the PAY.ON payment gateway via the OPPWA API.",
   "source": "src/index.js",
   "main": "dist/main.js",
