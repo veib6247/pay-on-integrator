@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import { setSubDomain, displayError } from './utils/utils.js'
+
 /**
  * main object to handle most of the operations
  */
