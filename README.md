@@ -27,6 +27,7 @@ Use the `submitTransactionRequest` function to generate a `checkoutId`.
     // create async function
     const testSubmit = async () => {
 
+      // pass in the integration type, your token, and request parameter string
       const responseData = integrator.submitTransactionRequest(
         'CopyAndPay',
         'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=',

@@ -20,7 +20,7 @@ const integrator = {
    * @param {string} referenceId Used for transactions that requires a reference ID (usually a registration ID or a previously approved transaction ID). Defaults as blank.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment, defaults to TRUE
    *
-   * @returns Promise JSON response object. Needs to be fullfilled.
+   * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   submitTransactionRequest: async (
     integrationType,
@@ -113,7 +113,7 @@ const integrator = {
    * @param {string} id The generated checkout ID returned from submitting the initial request.
    * @param {string} idType The type of id you provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
-   * @returns Promise JSON response object. Needs to be fullfilled.
+   * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   getPaymentStatus: async (
     accessToken,
@@ -173,7 +173,7 @@ const integrator = {
    * @param {string} entityId Your assigned entity ID provided by your service provider.
    * @param {string} registrationID The registration ID that you wish to delete.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
-   * @returns
+   * @returns {promise} To be fullfilled.
    */
   deleteRegistration: async (
     accessToken,
