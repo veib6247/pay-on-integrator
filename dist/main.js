@@ -68,17 +68,22 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
             default:
                 return $4803ebcc7d901773$export$7e605cc38c3f1d09(`The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`);
         }
-        // le fetch
-        const rawResponse = await $42D0D$nodefetch(endPoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: `Bearer ${accessToken}`
-            },
-            body: parameters
-        });
-        // return response, to be fullfilled
-        return await rawResponse.json();
+        // Hit the API, catch errors just in case.
+        try {
+            // fetch
+            const rawResponse = await $42D0D$nodefetch(endPoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${accessToken}`
+                },
+                body: parameters
+            });
+            // return response, to be fullfilled
+            return await rawResponse.json();
+        } catch (error) {
+            console.error(error);
+        }
     },
     /**
    * Fetches the transaction result depending on the type of reference ID
@@ -106,15 +111,19 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
                 return $4803ebcc7d901773$export$7e605cc38c3f1d09(`ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`);
         }
         // fetch but GET method this time
-        const rawResponse = await $42D0D$nodefetch(endPoint, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-        // return response, to be fullfilled
-        return rawResponse.json();
+        try {
+            const rawResponse = await $42D0D$nodefetch(endPoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            // return response, to be fullfilled
+            return rawResponse.json();
+        } catch (error) {
+            console.error(error);
+        }
     },
     /**
    * Deletes an existing registration ID from the API
@@ -127,15 +136,19 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
         // init endpoint
         const endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`;
         // fetch but GET method this time
-        const rawResponse = await $42D0D$nodefetch(endPoint, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-        // return response, to be fullfilled
-        return rawResponse.json();
+        try {
+            const rawResponse = await $42D0D$nodefetch(endPoint, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            // return response, to be fullfilled
+            return rawResponse.json();
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
 var $ad4c169ceb31f1fd$export$2e2bcd8739ae039 = $ad4c169ceb31f1fd$var$integrator;

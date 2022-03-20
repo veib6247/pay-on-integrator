@@ -87,18 +87,23 @@ const integrator = {
         )
     }
 
-    // le fetch
-    const rawResponse = await fetch(endPoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: parameters,
-    })
+    // Hit the API, catch errors just in case.
+    try {
+      // fetch
+      const rawResponse = await fetch(endPoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: parameters,
+      })
 
-    // return response, to be fullfilled
-    return await rawResponse.json()
+      // return response, to be fullfilled
+      return await rawResponse.json()
+    } catch (error) {
+      console.error(error)
+    }
   },
 
   /**
@@ -146,16 +151,20 @@ const integrator = {
     }
 
     // fetch but GET method this time
-    const rawResponse = await fetch(endPoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+    try {
+      const rawResponse = await fetch(endPoint, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
 
-    // return response, to be fullfilled
-    return rawResponse.json()
+      // return response, to be fullfilled
+      return rawResponse.json()
+    } catch (error) {
+      console.error(error)
+    }
   },
 
   /**
@@ -178,16 +187,20 @@ const integrator = {
     )}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
 
     // fetch but GET method this time
-    const rawResponse = await fetch(endPoint, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+    try {
+      const rawResponse = await fetch(endPoint, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
 
-    // return response, to be fullfilled
-    return rawResponse.json()
+      // return response, to be fullfilled
+      return rawResponse.json()
+    } catch (error) {
+      console.error(error)
+    }
   },
 }
 
