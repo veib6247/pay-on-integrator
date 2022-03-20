@@ -1,6 +1,17 @@
 import $42D0D$nodefetch from "node-fetch";
 
 
+const $4803ebcc7d901773$export$14800167e7893ba3 = (isTestMode)=>{
+    if (isTestMode) return 'eu-test';
+    else return 'eu-prod';
+};
+const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
+    console.error(errorMsg) // Display log to console in case data isn't being captured.
+    ;
+    return errorMsg;
+};
+
+
 /**
  * main object to handle most of the operations
  */ const $ad4c169ceb31f1fd$var$integrator = {
@@ -26,16 +37,16 @@ import $42D0D$nodefetch from "node-fetch";
         let endPoint = '';
         switch(integrationType){
             case 'CopyAndPay':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/checkouts`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/checkouts`;
                 break;
             case 'ServerToServer':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/payments`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/payments`;
                 break;
             case 'threeDSecure':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/threeDSecure`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/threeDSecure`;
                 break;
             case 'TokenizeStandAlone':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/registrations`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations`;
                 break;
             case 'Manage':
                 // eval if user passed a referenceId
@@ -43,7 +54,7 @@ import $42D0D$nodefetch from "node-fetch";
                     let error = `"referenceId" is required for Integration Type "Manage".`;
                     console.error(error);
                     return error;
-                } else endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/payments/${referenceId}`;
+                } else endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/payments/${referenceId}`;
                 break;
             case 'Recurring':
                 // eval if user passed a referenceId
@@ -51,13 +62,11 @@ import $42D0D$nodefetch from "node-fetch";
                     let error = `"referenceId" is required for Integration Type "Recurring".`;
                     console.error(error);
                     return error;
-                } else endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/registrations/${referenceId}/payments`;
+                } else endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations/${referenceId}/payments`;
                 break;
             // display error to user in case type is not within scope
             default:
-                let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`;
-                console.error(error);
-                return error;
+                return $4803ebcc7d901773$export$7e605cc38c3f1d09(`The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`);
         }
         // le fetch
         const rawResponse = await $42D0D$nodefetch(endPoint, {
@@ -84,19 +93,17 @@ import $42D0D$nodefetch from "node-fetch";
         let endPoint = '';
         switch(idType){
             case 'checkoutId':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/checkouts/${id}/payment?entityId=${entityId}`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/checkouts/${id}/payment?entityId=${entityId}`;
                 break;
             case 'paymentId':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/query/${id}?entityId=${entityId}`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/query/${id}?entityId=${entityId}`;
                 break;
             case 'merchantTransactionId':
-                endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/query?entityId=${entityId}&merchantTransactionId=${id}`;
+                endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/query?entityId=${entityId}&merchantTransactionId=${id}`;
                 break;
             // error handling for unsupported id type
             default:
-                let error = `ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`;
-                console.error(error);
-                return error;
+                return $4803ebcc7d901773$export$7e605cc38c3f1d09(`ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`);
         }
         // fetch but GET method this time
         const rawResponse = await $42D0D$nodefetch(endPoint, {
@@ -117,7 +124,8 @@ import $42D0D$nodefetch from "node-fetch";
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns
    */ deleteRegistration: async (accessToken, entityId, registrationID, isTestMode = true)=>{
-        const endPoint = `https://${$ad4c169ceb31f1fd$var$setSubDomain(isTestMode)}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`;
+        // init endpoint
+        const endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`;
         // fetch but GET method this time
         const rawResponse = await $42D0D$nodefetch(endPoint, {
             method: 'DELETE',
@@ -129,14 +137,6 @@ import $42D0D$nodefetch from "node-fetch";
         // return response, to be fullfilled
         return rawResponse.json();
     }
-};
-/**
- * Utility function to return subdomain string
- * @param {boolean} isTestMode TRUE for test mode, FALSE for live.
- * @returns {string} subdomain string
- */ const $ad4c169ceb31f1fd$var$setSubDomain = (isTestMode)=>{
-    if (isTestMode) return 'eu-test';
-    else return 'eu-prod';
 };
 var $ad4c169ceb31f1fd$export$2e2bcd8739ae039 = $ad4c169ceb31f1fd$var$integrator;
 

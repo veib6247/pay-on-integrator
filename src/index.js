@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { setSubDomain, displayError } from './utils/utils.js'
 /**
  * main object to handle most of the operations
  */
@@ -77,10 +78,9 @@ const integrator = {
 
       // display error to user in case type is not within scope
       default:
-        let error = `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`
-
-        console.error(error)
-        return error
+        return displayError(
+          `The Integration Type "${integrationType}" is not recognized. Please choose only from the following: ["CopyAndPay", "ServerToServer", "threeDSecure", "TokenizeStandAlone", "Manage"]`
+        )
     }
 
     // le fetch
@@ -136,10 +136,9 @@ const integrator = {
 
       // error handling for unsupported id type
       default:
-        let error = `ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`
-        console.error(error)
-
-        return error
+        return displayError(
+          `ID Type "${idType}" is not recognized. Please choose from ["checkoutId", "paymentId", "merchantTransactionId"] only.`
+        )
     }
 
     // fetch but GET method this time
@@ -169,6 +168,7 @@ const integrator = {
     registrationID,
     isTestMode = true
   ) => {
+    // init endpoint
     const endPoint = `https://${setSubDomain(
       isTestMode
     )}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
@@ -185,19 +185,6 @@ const integrator = {
     // return response, to be fullfilled
     return rawResponse.json()
   },
-}
-
-/**
- * Utility function to return subdomain string
- * @param {boolean} isTestMode TRUE for test mode, FALSE for live.
- * @returns {string} subdomain string
- */
-const setSubDomain = (isTestMode) => {
-  if (isTestMode) {
-    return 'eu-test'
-  } else {
-    return 'eu-prod'
-  }
 }
 
 export default integrator
