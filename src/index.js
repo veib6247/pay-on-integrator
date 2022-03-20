@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { setSubDomain, displayError } from './utils/utils.js'
+import { setSubDomain, displayError, isRequired } from './utils/utils.js'
 
 /**
  * main object to handle most of the operations
@@ -24,9 +24,9 @@ const integrator = {
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   submitTransactionRequest: async (
-    integrationType,
-    accessToken,
-    parameters,
+    integrationType = isRequired(),
+    accessToken = isRequired(),
+    parameters = isRequired(),
     referenceId = '',
     isTestMode = true
   ) => {
@@ -117,10 +117,10 @@ const integrator = {
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   getPaymentStatus: async (
-    accessToken,
-    entityId,
-    id,
-    idType,
+    accessToken = isRequired(),
+    entityId = isRequired(),
+    id = isRequired(),
+    idType = isRequired(),
     isTestMode = true
   ) => {
     // init endPoint URL
@@ -177,9 +177,9 @@ const integrator = {
    * @returns {promise} To be fullfilled.
    */
   deleteRegistration: async (
-    accessToken,
-    entityId,
-    registrationID,
+    accessToken = isRequired(),
+    entityId = isRequired(),
+    registrationID = isRequired(),
     isTestMode = true
   ) => {
     // init endpoint

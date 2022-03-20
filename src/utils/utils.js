@@ -17,6 +17,12 @@ export const setSubDomain = (isTestMode) => {
  * @returns {string} Error message to the user.
  */
 export const displayError = (errorMsg) => {
-  console.error(errorMsg) // Display log to console in case data isn't being captured.
-  return errorMsg
+  throw new Error(errorMsg)
+}
+
+/**
+ * Throws an error if the user call a function that didn't put any value on the required params
+ */
+export const isRequired = () => {
+  throw new Error('Parameter is required!')
 }

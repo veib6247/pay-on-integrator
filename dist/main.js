@@ -6,9 +6,10 @@ const $4803ebcc7d901773$export$14800167e7893ba3 = (isTestMode)=>{
     else return 'eu-prod';
 };
 const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
-    console.error(errorMsg) // Display log to console in case data isn't being captured.
-    ;
-    return errorMsg;
+    throw new Error(errorMsg);
+};
+const $4803ebcc7d901773$export$669b575c90eb8624 = ()=>{
+    throw new Error('Parameter is required!');
 };
 
 
@@ -31,8 +32,8 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
    * @param {string} referenceId Used for transactions that requires a reference ID (usually a registration ID or a previously approved transaction ID). Defaults as blank.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment, defaults to TRUE
    *
-   * @returns Promise JSON response object. Needs to be fullfilled.
-   */ submitTransactionRequest: async (integrationType, accessToken, parameters, referenceId = '', isTestMode = true)=>{
+   * @returns {promise} Promise JSON response object. Needs to be fullfilled.
+   */ submitTransactionRequest: async (integrationType = $4803ebcc7d901773$export$669b575c90eb8624(), accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), parameters = $4803ebcc7d901773$export$669b575c90eb8624(), referenceId = '', isTestMode = true)=>{
         // init URL endpoint
         let endPoint = '';
         switch(integrationType){
@@ -92,8 +93,8 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
    * @param {string} id The generated checkout ID returned from submitting the initial request.
    * @param {string} idType The type of id you provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
-   * @returns Promise JSON response object. Needs to be fullfilled.
-   */ getPaymentStatus: async (accessToken, entityId, id, idType, isTestMode = true)=>{
+   * @returns {promise} Promise JSON response object. Needs to be fullfilled.
+   */ getPaymentStatus: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), entityId = $4803ebcc7d901773$export$669b575c90eb8624(), id = $4803ebcc7d901773$export$669b575c90eb8624(), idType = $4803ebcc7d901773$export$669b575c90eb8624(), isTestMode = true)=>{
         // init endPoint URL
         let endPoint = '';
         switch(idType){
@@ -131,8 +132,8 @@ const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
    * @param {string} entityId Your assigned entity ID provided by your service provider.
    * @param {string} registrationID The registration ID that you wish to delete.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
-   * @returns
-   */ deleteRegistration: async (accessToken, entityId, registrationID, isTestMode = true)=>{
+   * @returns {promise} To be fullfilled.
+   */ deleteRegistration: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), entityId = $4803ebcc7d901773$export$669b575c90eb8624(), registrationID = $4803ebcc7d901773$export$669b575c90eb8624(), isTestMode = true)=>{
         // init endpoint
         const endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`;
         // fetch but GET method this time
