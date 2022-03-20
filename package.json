@@ -4,7 +4,7 @@
   "description": "Allows you to send transactions to the PAY.ON payment gateway via the OPPWA API.",
   "source": "src/index.js",
   "main": "dist/main.js",
-  "type": "module",
+  "module": "dist/module.js",
   "scripts": {
     "watch": "parcel watch",
     "build": "parcel build"
