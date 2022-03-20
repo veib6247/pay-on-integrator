@@ -2,10 +2,12 @@
   "name": "pay-on-integrator",
   "version": "1.0.1",
   "description": "Allows you to send transactions to the PAY.ON payment gateway via the OPPWA API.",
-  "main": "index.js",
+  "source": "src/index.js",
+  "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "parcel watch",
+    "build": "parcel build"
   },
   "repository": {
     "type": "git",
@@ -28,5 +30,8 @@
   "homepage": "https://github.com/veib6247/pay-on-integrator#readme",
   "dependencies": {
     "node-fetch": "^3.2.3"
+  },
+  "devDependencies": {
+    "parcel": "^2.3.2"
   }
 }
