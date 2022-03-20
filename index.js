@@ -28,28 +28,24 @@ const integrator = {
     referenceId = '',
     isTestMode = true
   ) => {
-    // init sub domain
-    let subDomain = ''
-    if (isTestMode) {
-      subDomain = 'eu-test'
-    } else {
-      subDomain = 'eu-prod'
-    }
-
     // init URL endpoint
     let endPoint = ''
     switch (integrationType) {
       case 'CopyAndPay':
-        endPoint = `https://${subDomain}.oppwa.com/v1/checkouts`
+        endPoint = `https://${setSubDomain(isTestMode)}.oppwa.com/v1/checkouts`
         break
       case 'ServerToServer':
-        endPoint = `https://${subDomain}.oppwa.com/v1/payments`
+        endPoint = `https://${setSubDomain(isTestMode)}.oppwa.com/v1/payments`
         break
       case 'threeDSecure':
-        endPoint = `https://${subDomain}.oppwa.com/v1/threeDSecure`
+        endPoint = `https://${setSubDomain(
+          isTestMode
+        )}.oppwa.com/v1/threeDSecure`
         break
       case 'TokenizeStandAlone':
-        endPoint = `https://${subDomain}.oppwa.com/v1/registrations`
+        endPoint = `https://${setSubDomain(
+          isTestMode
+        )}.oppwa.com/v1/registrations`
         break
       case 'Manage':
         // eval if user passed a referenceId
@@ -59,7 +55,9 @@ const integrator = {
 
           return error
         } else {
-          endPoint = `https://${subDomain}.oppwa.com/v1/payments/${referenceId}`
+          endPoint = `https://${setSubDomain(
+            isTestMode
+          )}.oppwa.com/v1/payments/${referenceId}`
         }
         break
 
@@ -71,7 +69,9 @@ const integrator = {
 
           return error
         } else {
-          endPoint = `https://${subDomain}.oppwa.com/v1/registrations/${referenceId}/payments`
+          endPoint = `https://${setSubDomain(
+            isTestMode
+          )}.oppwa.com/v1/registrations/${referenceId}/payments`
         }
         break
 
@@ -113,27 +113,25 @@ const integrator = {
     idType,
     isTestMode = true
   ) => {
-    // init sub domain
-    let subDomain = ''
-    if (isTestMode) {
-      subDomain = 'eu-test'
-    } else {
-      subDomain = 'eu-prod'
-    }
-
     // init endPoint URL
     let endPoint = ''
     switch (idType) {
       case 'checkoutId':
-        endPoint = `https://${subDomain}.oppwa.com/v1/checkouts/${id}/payment?entityId=${entityId}`
+        endPoint = `https://${setSubDomain(
+          isTestMode
+        )}.oppwa.com/v1/checkouts/${id}/payment?entityId=${entityId}`
         break
 
       case 'paymentId':
-        endPoint = `https://${subDomain}.oppwa.com/v1/query/${id}?entityId=${entityId}`
+        endPoint = `https://${setSubDomain(
+          isTestMode
+        )}.oppwa.com/v1/query/${id}?entityId=${entityId}`
         break
 
       case 'merchantTransactionId':
-        endPoint = `https://${subDomain}.oppwa.com/v1/query?entityId=${entityId}&merchantTransactionId=${id}`
+        endPoint = `https://${setSubDomain(
+          isTestMode
+        )}.oppwa.com/v1/query?entityId=${entityId}&merchantTransactionId=${id}`
         break
 
       // error handling for unsupported id type
@@ -171,19 +169,9 @@ const integrator = {
     registrationID,
     isTestMode = true
   ) => {
-    // init endPoint URL
-    let endPoint = ''
-
-    /**
-     * eval if test or live
-     * notice that we are not putting the entityId in the body
-     * just plain old URL params
-     */
-    if (isTestMode) {
-      endPoint = `https://eu-test.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
-    } else {
-      endPoint = `https://eu-prod.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
-    }
+    const endPoint = `https://${setSubDomain(
+      isTestMode
+    )}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
 
     // fetch but GET method this time
     const rawResponse = await fetch(endPoint, {
@@ -197,6 +185,19 @@ const integrator = {
     // return response, to be fullfilled
     return rawResponse.json()
   },
+}
+
+/**
+ * Utility function to return subdomain string
+ * @param {boolean} isTestMode TRUE for test mode, FALSE for live.
+ * @returns {string} subdomain string
+ */
+const setSubDomain = (isTestMode) => {
+  if (isTestMode) {
+    return 'eu-test'
+  } else {
+    return 'eu-prod'
+  }
 }
 
 export default integrator
