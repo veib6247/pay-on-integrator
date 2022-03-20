@@ -35,19 +35,23 @@ const integrator = {
       case 'CopyAndPay':
         endPoint = `https://${setSubDomain(isTestMode)}.oppwa.com/v1/checkouts`
         break
+
       case 'ServerToServer':
         endPoint = `https://${setSubDomain(isTestMode)}.oppwa.com/v1/payments`
         break
+
       case 'threeDSecure':
         endPoint = `https://${setSubDomain(
           isTestMode
         )}.oppwa.com/v1/threeDSecure`
         break
+
       case 'TokenizeStandAlone':
         endPoint = `https://${setSubDomain(
           isTestMode
         )}.oppwa.com/v1/registrations`
         break
+
       case 'Manage':
         // eval if user passed a referenceId
         if (referenceId == '') {
