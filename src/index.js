@@ -24,9 +24,9 @@ const integrator = {
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   submitTransactionRequest: async (
-    integrationType = isRequired(),
-    accessToken = isRequired(),
-    parameters = isRequired(),
+    integrationType = isRequired('integrationType'),
+    accessToken = isRequired('accessToken'),
+    parameters = isRequired('parameters'),
     referenceId = '',
     isTestMode = true
   ) => {
@@ -117,10 +117,10 @@ const integrator = {
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
    */
   getPaymentStatus: async (
-    accessToken = isRequired(),
-    entityId = isRequired(),
-    id = isRequired(),
-    idType = isRequired(),
+    accessToken = isRequired('accessToken'),
+    entityId = isRequired('entityId'),
+    id = isRequired('id'),
+    idType = isRequired('idType'),
     isTestMode = true
   ) => {
     // init endPoint URL
@@ -177,9 +177,9 @@ const integrator = {
    * @returns {promise} To be fullfilled.
    */
   deleteRegistration: async (
-    accessToken = isRequired(),
-    entityId = isRequired(),
-    registrationID = isRequired(),
+    accessToken = isRequired('accessToken'),
+    entityId = isRequired('entityId'),
+    registrationID = isRequired('registrationID'),
     isTestMode = true
   ) => {
     // init endpoint

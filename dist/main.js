@@ -8,8 +8,8 @@ const $4803ebcc7d901773$export$14800167e7893ba3 = (isTestMode)=>{
 const $4803ebcc7d901773$export$7e605cc38c3f1d09 = (errorMsg)=>{
     throw new Error(errorMsg);
 };
-const $4803ebcc7d901773$export$669b575c90eb8624 = ()=>{
-    throw new Error('Parameter is required!');
+const $4803ebcc7d901773$export$669b575c90eb8624 = (missingParameter)=>{
+    throw new Error(`"${missingParameter}" is a required field!`);
 };
 
 
@@ -33,7 +33,7 @@ const $4803ebcc7d901773$export$669b575c90eb8624 = ()=>{
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment, defaults to TRUE
    *
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
-   */ submitTransactionRequest: async (integrationType = $4803ebcc7d901773$export$669b575c90eb8624(), accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), parameters = $4803ebcc7d901773$export$669b575c90eb8624(), referenceId = '', isTestMode = true)=>{
+   */ submitTransactionRequest: async (integrationType = $4803ebcc7d901773$export$669b575c90eb8624('integrationType'), accessToken = $4803ebcc7d901773$export$669b575c90eb8624('accessToken'), parameters = $4803ebcc7d901773$export$669b575c90eb8624('parameters'), referenceId = '', isTestMode = true)=>{
         // init URL endpoint
         let endPoint = '';
         switch(integrationType){
@@ -94,7 +94,7 @@ const $4803ebcc7d901773$export$669b575c90eb8624 = ()=>{
    * @param {string} idType The type of id you provided. Choices are: ["checkoutId", "paymentId", "merchantTransactionId"]
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns {promise} Promise JSON response object. Needs to be fullfilled.
-   */ getPaymentStatus: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), entityId = $4803ebcc7d901773$export$669b575c90eb8624(), id = $4803ebcc7d901773$export$669b575c90eb8624(), idType = $4803ebcc7d901773$export$669b575c90eb8624(), isTestMode = true)=>{
+   */ getPaymentStatus: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624('accessToken'), entityId = $4803ebcc7d901773$export$669b575c90eb8624('entityId'), id = $4803ebcc7d901773$export$669b575c90eb8624('id'), idType = $4803ebcc7d901773$export$669b575c90eb8624('idType'), isTestMode = true)=>{
         // init endPoint URL
         let endPoint = '';
         switch(idType){
@@ -133,7 +133,7 @@ const $4803ebcc7d901773$export$669b575c90eb8624 = ()=>{
    * @param {string} registrationID The registration ID that you wish to delete.
    * @param {boolean} isTestMode Determines if you want to hit the test or live environment. Defaults to true.
    * @returns {promise} To be fullfilled.
-   */ deleteRegistration: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624(), entityId = $4803ebcc7d901773$export$669b575c90eb8624(), registrationID = $4803ebcc7d901773$export$669b575c90eb8624(), isTestMode = true)=>{
+   */ deleteRegistration: async (accessToken = $4803ebcc7d901773$export$669b575c90eb8624('accessToken'), entityId = $4803ebcc7d901773$export$669b575c90eb8624('entityId'), registrationID = $4803ebcc7d901773$export$669b575c90eb8624('registrationID'), isTestMode = true)=>{
         // init endpoint
         const endPoint = `https://${$4803ebcc7d901773$export$14800167e7893ba3(isTestMode)}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`;
         // fetch but GET method this time
