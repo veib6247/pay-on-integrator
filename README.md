@@ -4,26 +4,29 @@ This library allows you to send transactions to the PAY.ON payment gateway witho
 
 # Install
 
-`import integrator from 'pay-on-integrator'`
+`npm install pay-on-integrator`
 
 # Functions
 
-## `submitTransactionRequest` - Submits the data to the appropriate endpoint depending on the integrationType provided by the user.
+Variable and parameter descriptions all in the JS Docs (comments) my dudes.
 
-### @param {string} `integrationType` - The type of integration you want to send the request to. Available options below:
+# Usage
 
-- "CopyAndPay" - Returns a checkout ID that you will need to call the widget.
-- "ServerToServer" - Support synchronous transactions only, does not autodirect to URL from the intermediate response.
-- "threeDSecure" - Standalone 3D Secure transaction request, only returns intermediate response, does not auto-redirect.
-- "TokenizeStandAlone" - Submits data for standalone tokenization in the gateway.
-- "Manage" - Submits against existing transaction to Refund, Capture, Reverse, or, Receipt.
-- "Recurring" - Used for subscription type services, use against a registration ID.
+ES Modules only for now folks.
+
+`import integrator from 'pay-on-integrator'`
+
+# Sample Codes
+
+I'll try to add the rest in the coming days.
 
 ## CopyandPay
 
 Use the `submitTransactionRequest` function to generate a `checkoutId`.
 
+    // create async function
     const testSubmit = async () => {
+
       const responseData = integrator.submitTransactionRequest(
         'CopyAndPay',
         'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=',
@@ -35,6 +38,7 @@ Use the `submitTransactionRequest` function to generate a `checkoutId`.
       console.log(response)
     }
 
+    // call function as needed
     testSubmit()
 
 ### Response Sample
