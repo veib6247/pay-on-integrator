@@ -88,18 +88,20 @@ const integrator = {
         )
     }
 
+    // init http options
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: parameters,
+    }
+
     // Hit the API, catch errors just in case.
     try {
       // fetch
-      const rawResponse = await fetch(endPoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: parameters,
-      })
-
+      const rawResponse = await fetch(endPoint, options)
       // return response, to be fullfilled
       return await rawResponse.json()
     } catch (error) {
@@ -151,16 +153,18 @@ const integrator = {
         )
     }
 
+    // init http options
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+
     // fetch but GET method this time
     try {
-      const rawResponse = await fetch(endPoint, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-
+      const rawResponse = await fetch(endPoint, options)
       // return response, to be fullfilled
       return rawResponse.json()
     } catch (error) {
@@ -187,15 +191,18 @@ const integrator = {
       isTestMode
     )}.oppwa.com/v1/registrations/${registrationID}?entityId=${entityId}`
 
+    // init options
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+
     // fetch but GET method this time
     try {
-      const rawResponse = await fetch(endPoint, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      const rawResponse = await fetch(endPoint, options)
 
       // return response, to be fullfilled
       return rawResponse.json()
